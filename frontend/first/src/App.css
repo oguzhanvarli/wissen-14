@@ -1,0 +1,11 @@
+.container{
+  height: 100vh;
+}
+.header{
+  height: 25%;
+  background-color: aqua;
+}
+.footer{
+  background-color: indigo;
+  height: 25%;
+}
