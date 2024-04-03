@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Main = () => {
+const Main = ({yazi2}) => {
   return (
     <div style={{ height: "50%", backgroundColor: 'red' }}>
-      Main Burası
+     {yazi2}
     </div>
   )
 }

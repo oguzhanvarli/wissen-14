@@ -1,9 +1,11 @@
 import React from 'react'
 
-const Footer = () => {
+const Footer = (prop) => {
+  let text = prop.footerText
   return (
     <div className="footer">
-      Footer Burası
+      {/* <h1 className='footerText'>{prop.footerText.isim + " "+ prop.footerText.soyisim}</h1> */}
+      <h1 className='footerText'>{text}</h1>
     </div>
   )
 }
