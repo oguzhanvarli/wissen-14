@@ -4,9 +4,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Product = require('./models/ProductModel')
+const cors = require("cors")
 const app = express()
 
 app.use(express.json())
+
+//CORS SETTINGS
+app.use(cors({
+  origin: "*"
+}))
 
 //ROUTER IMPORT
 const UserRouter = require('./router/UserRouter')
@@ -98,7 +104,7 @@ app.use("/product", ProductRouter)
 //   res.send('Here is Products2')
 // })
 
-app.listen(3000)
+app.listen(9000)
 
 
 // {
