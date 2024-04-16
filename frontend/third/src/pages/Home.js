@@ -1,5 +1,6 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import ProductCard from '../componets/ProductCard'
 
 const Home = () => {
 
@@ -18,6 +19,11 @@ const Home = () => {
       quantity: 0
     }
   ])
+
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   const getData = async () => {
     //FETCH İLE GET İŞLEMİ
@@ -44,15 +50,11 @@ const Home = () => {
 
 
   return (
-    <div>
-      <button onClick={getData}>Get Products</button>
+    <div className='grid grid-cols-4 gap-6'>
       {/* <h1>{data[0].title}</h1> */}
       {
         data.map((element) => (
-          <>
-            <h3>{element.title}</h3>
-            <h6>{element.price}</h6>
-          </>
+          <ProductCard element={element} />
         ))
       }
     </div>
