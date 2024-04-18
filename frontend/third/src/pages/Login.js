@@ -3,6 +3,14 @@ import axios from 'axios'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
+import * as Yup from 'yup'
+import image1 from '../assets/images/login-image.jpeg'
+
+const loginSchema = Yup.object().shape({
+  username : Yup.string().required('Username is required!').min(3,'Username must minimum be 3 character'),
+  password : Yup.string().required('Password is required!').min(4, 'Password must be minimum 4 charcter')
+  .max(15, 'Password must be max 15 character')
+})
 
 function Login() {
   // console.log(username, password)
@@ -21,18 +29,22 @@ function Login() {
   }
 
   return (
-    <div className='flex justify-center min-h-screen items-center'>
+    <div style={{backgroundImage: `url(${image1})`}} className='flex justify-center min-h-screen items-center'>
       <Formik
-        initialValues={{ username: "", password: "", fullname: "" }}
+        initialValues={{ username: "", password: "" }}
         onSubmit={(values) => handleLogin(values)}
+        validationSchema={loginSchema}
       >
-        {({ values, handleChange, handleBlur, handleSubmit }) => (
-          <div className='w-1/2 md:w-1/3 lg:w-1/4'>
+        {({ values, handleChange, handleBlur, handleSubmit, touched, errors }) => (
+          <div className='w-1/2 md:w-1/3 lg:w-1/4 bg-white bg-opacity-70'>
             <div>
               <TextField variant='standard' label="Username" className='w-full'
                 id='username'
                 value={values.username}
                 onChange={handleChange("username")}
+                onBlur={handleBlur("username")}
+                error={touched.username && Boolean(errors.username)}
+                helperText={touched.username && errors.username}
               />
             </div>
             <div className='my-6'>
@@ -40,6 +52,9 @@ function Login() {
                 id="password"
                 value={values.password}
                 onChange={handleChange("password")}
+                onBlur={handleBlur("password")}
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
               />
             </div>
             <div className='flex justify-center'>
