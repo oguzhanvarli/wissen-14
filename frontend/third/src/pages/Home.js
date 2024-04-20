@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import ProductCard from '../componets/ProductCard'
+import Navbar from '../componets/Navbar'
 
 const Home = () => {
 
@@ -50,14 +51,17 @@ const Home = () => {
 
 
   return (
-    <div className='grid grid-cols-4 gap-6'>
-      {/* <h1>{data[0].title}</h1> */}
-      {
-        data.map((element) => (
-          <ProductCard element={element} />
-        ))
-      }
-    </div>
+    <>
+      <Navbar />
+      <div className='grid grid-cols-4 gap-6 mt-20'>
+        {/* <h1>{data[0].title}</h1> */}
+        {
+          data.map((element) => (
+            <ProductCard element={element} />
+          ))
+        }
+      </div>
+    </>
   )
 }
 
