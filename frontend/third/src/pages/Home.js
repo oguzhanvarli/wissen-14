@@ -53,7 +53,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className='grid grid-cols-4 gap-6 mt-20'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 mt-20'>
         {/* <h1>{data[0].title}</h1> */}
         {
           data.map((element) => (

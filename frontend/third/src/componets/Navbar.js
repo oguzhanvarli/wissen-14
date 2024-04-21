@@ -1,7 +1,12 @@
+import { ShoppingCartOutlined } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
+
+  const cartNumber = useSelector((state) => state.cart.value)
+
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -25,6 +30,10 @@ const Navbar = () => {
           >
             Login
           </Button>
+          <div className='relative pr-2 pt-2'>
+            <p className='bg-red-600 absolute top-0 right-0 rounded-full text-white w-6 h-6 text-center'>{cartNumber}</p>
+            <ShoppingCartOutlined color='success' fontSize={'large'} className='' />
+          </div>
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"

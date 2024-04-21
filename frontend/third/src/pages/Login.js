@@ -14,7 +14,7 @@ const loginSchema = Yup.object().shape({
     .max(15, 'Password must be max 15 character')
 })
 
-function Login() {
+export function Login() {
   // console.log(username, password)
 
   const [showPassword, setShowPassword] = useState(false)
@@ -83,5 +83,3 @@ function Login() {
     </div>
   )
 }
-
-export default Login
