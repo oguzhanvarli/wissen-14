@@ -8,6 +8,8 @@ import Register from "./pages/Register";
 import Error404 from "./pages/Error404";
 import { Provider } from 'react-redux'
 import { store } from './store/store'
+import CartDetail from "./pages/CartDetail";
+import Navbar from "./componets/Navbar";
 
 function App() {
 
@@ -15,8 +17,10 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<CartDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<Error404 />} />
