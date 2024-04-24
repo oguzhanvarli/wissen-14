@@ -1,12 +1,15 @@
 import { Button, InputAdornment, TextField } from '@mui/material'
 import axios from 'axios'
 import { Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 import image1 from '../assets/images/login-image.jpeg'
 import { Link, useNavigate } from 'react-router-dom'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { jwtDecode } from 'jwt-decode'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../store/slices/userSlice'
 
 const loginSchema = Yup.object().shape({
   username: Yup.string().required('Username is required!').min(3, 'Username must minimum be 3 character'),
@@ -15,9 +18,27 @@ const loginSchema = Yup.object().shape({
 })
 
 export function Login() {
-  // console.log(username, password)
-
+  const dispatch = useDispatch()
   const [showPassword, setShowPassword] = useState(false)
+
+  useEffect(() => {
+    checkToken()
+  }, [])
+
+
+  const checkToken = async () => {
+    let expireDate = localStorage.getItem("expire_date")
+    if (expireDate) {
+      let date = new Date()
+      let currentTime = date.getTime() / 1000
+      if (expireDate > currentTime) {
+        await dispatch(setUser())
+        navigate("/home")
+      } else {
+        localStorage.removeItem("expire_date")
+      }
+    }
+  }
 
   const navigate = useNavigate()
 
@@ -27,7 +48,10 @@ export function Login() {
       .then((res) => {
         if (res.data.success) {
           toast.success(res.data.message)
-          navigate("/")
+          let decoded = jwtDecode(res.data.token)
+          localStorage.setItem("expire_date", decoded.exp)
+          dispatch(setUser())
+          navigate("/home")
         }
       }).catch((err) => {
         console.log(err.response.data.message)
@@ -64,9 +88,9 @@ export function Login() {
                 helperText={touched.password && errors.password}
                 InputProps={{
                   endAdornment: (
-                      <InputAdornment className='pointer' position='end' onClick={() => setShowPassword(!showPassword)} >
-                        {!showPassword ? <Visibility/> : <VisibilityOff/>}
-                      </InputAdornment>
+                    <InputAdornment className='pointer' position='end' onClick={() => setShowPassword(!showPassword)} >
+                      {!showPassword ? <Visibility /> : <VisibilityOff />}
+                    </InputAdornment>
                   )
                 }}
               />

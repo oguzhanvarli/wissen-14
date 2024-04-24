@@ -1,17 +1,24 @@
-import { ShoppingCartOutlined } from '@mui/icons-material'
+import { Person, ShoppingCartOutlined } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { setUser } from '../store/slices/userSlice'
 
 const Navbar = () => {
 
   const navigate = useNavigate()
 
   const cartNumber = useSelector((state) => state.cart.value)
+  const user = useSelector(state => state.user.user)
+  const dispatch = useDispatch()
 
   const test = () => {
     console.log('value')
+  }
+  const handleLogout = () => {
+    localStorage.removeItem("expire_date")
+    dispatch(setUser())
   }
 
   return (
@@ -31,12 +38,13 @@ const Navbar = () => {
           </span>
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <Button
-            href='/login'
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Login
-          </Button>
+          {user ? <Person  color='info' fontSize='large' className='mt-2' onClick={handleLogout}/> :
+            <Button
+              href='/login'
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Login
+            </Button>}
           <div onClick={() => navigate('/cart')} className='relative pr-2 pt-2'>
             {cartNumber != 0 ? <p className='bg-red-600 absolute top-0 right-0 rounded-full text-white w-6 h-6 text-center'>{cartNumber}</p> : null}
             <ShoppingCartOutlined color='success' fontSize={'large'} className='' />

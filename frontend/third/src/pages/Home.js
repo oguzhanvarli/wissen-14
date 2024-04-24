@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ProductCard from '../componets/ProductCard'
 import Navbar from '../componets/Navbar'
 
@@ -12,6 +12,8 @@ const Home = () => {
   //   quantity : 0
   // }]
 
+  const testRef = useRef()
+
   const [data, setData] = useState([
     {
       title: "",
@@ -21,12 +23,15 @@ const Home = () => {
     }
   ])
 
+  const [isSuccess, setIsSuccess] = useState(false)
+
 
   useEffect(() => {
     getData()
   }, [])
 
   const getData = async () => {
+    console.log('data çekme işlemi')
     //FETCH İLE GET İŞLEMİ
 
     // try {
@@ -49,12 +54,18 @@ const Home = () => {
 
   console.log(data)
 
+  const exampleRef = () => {
+    testRef.current.style.backgroundColor = "Blue"
+    testRef.current.innerHTML = "Tıklnadı"
+  }
+
 
   return (
     <>
       <Navbar />
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 mt-20'>
         {/* <h1>{data[0].title}</h1> */}
+        {/* <button onClick={() => exampleRef()} ref={testRef} >Değiştir</button> */}
         {
           data.map((element) => (
             <ProductCard element={element} />
