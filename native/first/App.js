@@ -4,6 +4,11 @@ import FlexSamples from './src/samples/FlexSamples'
 import FlexSamples2 from './src/samples/FlexSamples2'
 import UseStateSample from './src/samples/UseStateSample'
 import Characters from './src/screens/Characters'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import CharacterDetail from './src/screens/CharacterDetail'
+
+const Stack = createNativeStackNavigator()
 
 const App = () => {
   return (
@@ -12,7 +17,14 @@ const App = () => {
     // </View>
     // <FlexSamples2/>
     // <UseStateSample/>
-    <Characters />
+    
+    // <Characters />
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name='Character' component={Characters} />
+        <Stack.Screen name="CharacterDetail" component={CharacterDetail} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 

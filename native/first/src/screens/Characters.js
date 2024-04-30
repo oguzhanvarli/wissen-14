@@ -1,21 +1,24 @@
-import { Button, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Button, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { baseService } from '../services/baseService'
 import CharacterCard from '../components/CharacterCard'
 
-const Characters = () => {
+const Characters = ({navigation}) => {
 
-  const [data, setData] = useState({})
+  const [data, setData] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     getCharacters()
-  }, [])
+  }, [currentPage])
 
   const getCharacters = async () => {
     try {
-      let response = await baseService.get("https://rickandmortyapi.com/api/character")
-      setData(response)
+      console.log(currentPage)
+      let response = await baseService.get(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+      // console.log(response)
+      setData([...data, ...response.results])
     } catch (error) {
       console.log("Get Characters Error", error)
     }
@@ -30,6 +33,10 @@ const Characters = () => {
     }
   }
 
+  const myReachEnd = () => {
+    setCurrentPage(currentPage + 1)
+  }
+
   return (
     // <ScrollView>
     //   {data && data.map((item, index) => (
@@ -41,16 +48,20 @@ const Characters = () => {
     // </ScrollView>
     <>
 
-      <FlatList data={data.results} renderItem={({ item }) => (
-        <CharacterCard item={item}
-        />
+      <FlatList data={data} renderItem={({ item }) => (
+        <TouchableOpacity onPress={() => navigation.navigate('CharacterDetail')}>
+          <CharacterCard item={item}/>
+        </TouchableOpacity>
+        
       )}
         ListFooterComponent={
           <View style={styles.buttonContainer}>
-            <Button onPress={null} title='Prev' />
-            <Button onPress={getNextNewData} title='Next' />
+            <ActivityIndicator size={"large"} color={'#aaa'} />
           </View>
         }
+        keyExtractor={item => item.id}
+        onEndReached={myReachEnd}
+        onEndReachedThreshold={5}
       />
 
     </>
