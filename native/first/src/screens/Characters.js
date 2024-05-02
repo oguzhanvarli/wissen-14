@@ -15,8 +15,7 @@ const Characters = ({navigation}) => {
 
   const getCharacters = async () => {
     try {
-      console.log(currentPage)
-      let response = await baseService.get(`https://rickandmortyapi.com/api/character?page=${currentPage}`)
+      let response = await baseService.get(`/character?page=${currentPage}`)
       // console.log(response)
       setData([...data, ...response.results])
     } catch (error) {
@@ -49,7 +48,7 @@ const Characters = ({navigation}) => {
     <>
 
       <FlatList data={data} renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('CharacterDetail')}>
+        <TouchableOpacity onPress={() => navigation.navigate('CharacterDetail', {itemId : item.id})}>
           <CharacterCard item={item}/>
         </TouchableOpacity>
         
@@ -59,7 +58,7 @@ const Characters = ({navigation}) => {
             <ActivityIndicator size={"large"} color={'#aaa'} />
           </View>
         }
-        keyExtractor={item => item.id}
+        keyExtractor={(item,index) => index}
         onEndReached={myReachEnd}
         onEndReachedThreshold={5}
       />
