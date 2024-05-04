@@ -9,8 +9,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import CharacterDetail from './src/screens/CharacterDetail'
 import axios from 'axios'
 import Episodes from './src/screens/Episodes'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import Search from './src/screens/Search'
 
 const Stack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator()
 
 const App = () => {
   
@@ -25,11 +28,20 @@ const App = () => {
     
     // <Characters />
     <NavigationContainer>
+      {/* <Tab.Navigator>
+        <Tab.Screen name='Character' component={Characters} />
+        <Tab.Screen name='CharacterDetail' component={CharacterDetail} />
+        <Tab.Screen name='Search' component={Search} />
+      </Tab.Navigator> */}
       <Stack.Navigator>
-        <Stack.Screen name='Character' component={Characters} />
+        <Stack.Screen name='Character' component={Characters} options={{
+          headerShown: false
+        }} />
         <Stack.Screen name="CharacterDetail" component={CharacterDetail} />
         <Stack.Screen name="Episodes" component={Episodes} />
+        <Stack.Screen name="Search" component={Search} />
       </Stack.Navigator>
+      
     </NavigationContainer>
   )
 }

@@ -1,7 +1,7 @@
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { baseService } from '../services/baseService'
-import { Card } from '@rneui/themed';
+import { Card, ListItem } from '@rneui/themed';
 
 
 const CharacterDetail = ({ route, navigation }) => {
@@ -57,10 +57,26 @@ const CharacterDetail = ({ route, navigation }) => {
               uri: data.image,
             }}
           />
-          <Text style={{ marginVertical: 10 }}>
-            {data.status}
-          </Text>
+          <ListItem>
+            <ListItem.Content>
+              <ListItem.Title style={{color:"indianred"}}>Status</ListItem.Title>
+              <ListItem.Subtitle>{data.status}</ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Content>
+              <ListItem.Title style={{color:"indianred"}}>Species</ListItem.Title>
+              <ListItem.Subtitle>{data.species}</ListItem.Subtitle>
+            </ListItem.Content>
+            <ListItem.Content>
+              <ListItem.Title style={{color:"indianred"}}>Gender</ListItem.Title>
+              <ListItem.Subtitle>{data.gender}</ListItem.Subtitle>
+            </ListItem.Content>
+            {data.type !== "" ? <ListItem.Content>
+              <ListItem.Title style={{color:"indianred"}}>Type</ListItem.Title>
+              <ListItem.Subtitle>{data.type}</ListItem.Subtitle>
+            </ListItem.Content> : null}
+          </ListItem>
           <Card.Divider />
+          <Text style={styles.episodeHeader}>Episodes</Text>
             <FlatList horizontal data={data.episode} renderItem={({item}) => (
               <View style={styles.episodeContainer} >
                 <Text onPress={() => navigation.navigate('Episodes')} style={styles.episodeText}>{item.split('episode/')[1]}</Text>
@@ -91,5 +107,10 @@ const styles = StyleSheet.create({
   episodeText: {
     color: 'white',
     fontSize: 25,
+  },
+  episodeHeader:{
+    marginBottom: 15,
+    fontSize: 17,
+    color: 'indianred'
   }
 })

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { baseService } from '../services/baseService'
 import CharacterCard from '../components/CharacterCard'
 
-const Characters = ({navigation}) => {
+const Characters = ({ navigation }) => {
 
   const [data, setData] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -22,8 +22,8 @@ const Characters = ({navigation}) => {
       console.log("Get Characters Error", error)
     }
   }
-  
-  const getNextNewData = async() => {
+
+  const getNextNewData = async () => {
     try {
       let response = await baseService.get(`${data.info.next}`)
       setData(response)
@@ -48,19 +48,26 @@ const Characters = ({navigation}) => {
     <>
 
       <FlatList data={data} renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('CharacterDetail', {itemId : item.id})}>
-          <CharacterCard item={item}/>
+        <TouchableOpacity onPress={() => navigation.navigate('CharacterDetail', { itemId: item.id })}>
+          <CharacterCard item={item} />
         </TouchableOpacity>
-        
+
       )}
         ListFooterComponent={
           <View style={styles.buttonContainer}>
             <ActivityIndicator size={"large"} color={'#aaa'} />
           </View>
         }
-        keyExtractor={(item,index) => index}
+        keyExtractor={(item, index) => index}
         onEndReached={myReachEnd}
         onEndReachedThreshold={5}
+        ListHeaderComponent={
+          <View style={styles.searchContainer}>
+            <View style={styles.searchInnerContainer}>
+              <Button title='Search' onPress={() => navigation.navigate('Search')} />
+            </View>
+          </View>
+        }
       />
 
     </>
@@ -82,5 +89,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: "space-around",
     marginVertical: 40
+  },
+  searchContainer: {
+    width: "100%",
+    marginVertical: 10,
+  },
+  searchInnerContainer:{
+    width: 100,
+    display: "flex",
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   }
 })
